@@ -7,10 +7,18 @@ const thoughtSchema = new Schema(
       required: true,
       maxlength: 280,
     },
+    // createdAt: {
+    //     type: Date,
+    //     default: Date.now
+    //   }
     createdAt: {
         type: Date,
-        default: Date.now
-      }
+        default: Date.now,
+        get: (timestamp) => {
+        
+          return new Date(timestamp).toISOString();
+        },
+      },
     },
     {
       toJSON: { getters: true }
@@ -20,11 +28,7 @@ const thoughtSchema = new Schema(
       type: String,
       required: true,
     },
-    reactions: {
-      type: String,
-      required: true,
-    },
-    assignments: [assignmentSchema],
+    reactions: [reactionSchema],
   },
   {
     toJSON: {
