@@ -3,6 +3,7 @@ const User  = require('../models/User');
 
 router.get("/", async (req, res) =>{
     const allUsers = await User.find({});
+    console.log("get all users reached!");
     res.json(allUsers);
 });
 
@@ -16,7 +17,7 @@ router.post("/", async (req, res) =>{
     res.json(newUser);
 });
 
-router.put("/", async (req, res) =>{
+router.put("/:id", async (req, res) =>{
     const updateUser = await User.findByIdAndUpdate(req.params.id, req.body);
     res.json(updateUser)
 });
@@ -43,3 +44,5 @@ router.delete("/:userId/friends/:friendId"), async (req, res) => {
     res.json(removeFriend)
 }
 });
+
+module.exports = router;

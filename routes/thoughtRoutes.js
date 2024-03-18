@@ -1,7 +1,6 @@
 const router = require('express').Router();
 const User = require('../models/User');
-const Thought  = require('../models/User');
-const User = require('../models/User');
+const Thought  = require('../models/Thought');
 
 router.get("/", async (req, res) =>{
     const allThoughts = await Thought.findOne({});
@@ -15,9 +14,9 @@ router.get("/:id", async (req, res) =>{
 
 router.post("/", async (req, res) =>{
     const newThought = await Thought.create(req.body);
-    const updateUser = await User.findByIdUpdate(
-        req.body.userId, 
-        { $addToSet: { thoughts: newThought._id } },
+    const updateUser = await User.findOneAndUpdate(
+        {where: {username: req.body.username}}, 
+        { $push: { thoughts: newThought._id } },
         { new: true }
     );
     res.json(updateUser);
@@ -50,3 +49,5 @@ router.delete("/:thoughtId/reactions", async (req, res) =>{
     )
     res.json(thought);
 });
+
+module.exports = router;
